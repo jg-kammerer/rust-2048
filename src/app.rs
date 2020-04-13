@@ -34,7 +34,7 @@ impl<'a> App<'a> {
         }
     }
 
-    fn render_ui(&self, c: &Context, gl: &mut GlGraphics) {		
+    fn render_ui(&self, c: &Context, gl: &mut GlGraphics) {
         Image::new_color(rgb2rgba(self.settings.text_dark_color))
             .draw(self.logo.iter().next().unwrap(),
                   &DrawState::default(),
@@ -105,8 +105,8 @@ impl<'a> App<'a> {
 
     pub fn key_press(&mut self, args: &Button) {
 		use piston_window::Button::Keyboard;
-		use piston_window::Key;		
-		
+
+
         if *args == Keyboard(Key::Left) {
             self.board.merge_from_right_to_left();
         }

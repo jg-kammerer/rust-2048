@@ -1,4 +1,6 @@
-extern crate rustc_serialize;
+extern crate serde;
+extern crate serde_json;
+
 extern crate rand;
 extern crate piston_window;
 extern crate opengl_graphics;
@@ -14,10 +16,10 @@ mod settings;
 mod tile;
 
 fn main() {
-	use opengl_graphics::GlGraphics;	
+	use opengl_graphics::GlGraphics;
     let settings = settings::Settings::load();
 
-	let (width, height) = (settings.window_size[0], 
+	let (width, height) = (settings.window_size[0],
 	                       settings.window_size[1]);
 
     // according to piston WindowSettings documentation, OpenGL::V3_2 is the default version
