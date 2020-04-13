@@ -80,13 +80,17 @@ impl<'a> App<'a> {
         comment2_path.push(Path::new("comment2.png"));
 
         self.number_renderer = Some(NumberRenderer::new());
-        self.logo = Some(GlTexture::from_path(&logo_path).unwrap());
-        self.comment1 = Some(GlTexture::from_path(&comment1_path).unwrap());
-        self.comment2 = Some(GlTexture::from_path(&comment2_path).unwrap());
+
+        // Use default settings for textures
+        let t_settings =  opengl_graphics::TextureSettings::new();
+        self.logo = Some(GlTexture::from_path(&logo_path, &t_settings).unwrap());
+        self.comment1 = Some(GlTexture::from_path(&comment1_path, &t_settings).unwrap());
+        self.comment2 = Some(GlTexture::from_path(&comment2_path, &t_settings).unwrap());
     }
 
     pub fn render(&mut self, args: &RenderArgs, gl: &mut GlGraphics) {
-        let ref c = Context::new_abs(args.width as f64, args.height as f64);
+        let ref c = Context::new_abs(args.window_size[0] /* width */ as f64,
+                                     args.window_size[1] /* height */ as f64);
 
         let w_bg_col = self.window_background_color;
         let ref nr = self.number_renderer;

@@ -12,8 +12,10 @@ pub struct NumberRenderer {
 
 impl NumberRenderer {
     pub fn new() -> NumberRenderer {
+        // Use default settings for textures
+        let t_settings =  opengl_graphics::TextureSettings::new();
         NumberRenderer {
-            image: GlTexture::from_path(Path::new("bin/assets/digits.png")).unwrap(),
+            image: GlTexture::from_path(Path::new("bin/assets/digits.png"), &t_settings).unwrap(),
         }
     }
 
