@@ -19,7 +19,7 @@ impl<'a> Board<'a> {
         let mut board = Board {
             tiles: Vec::<Tile>::new(),
             score: 0,
-            settings: settings,
+            settings,
         };
         board.generate_tile();
         board.generate_tile();
@@ -84,7 +84,7 @@ impl<'a> Board<'a> {
             }
         }
 
-        if tiles_need_removed.len() > 0 {
+        if !tiles_need_removed.is_empty() {
             let mut tiles = Vec::<Tile>::new();
 
             for i in 0..self.tiles.len() {
@@ -151,19 +151,13 @@ impl<'a> Board<'a> {
             for col in 0 .. self.settings.tile_width {
                 // TODO: replace steps by (y_start .. y_end).step_by(y_step) if step_by becomes stable
                 for row  in steps.to_vec() {
-                    match self.get_mut_tile(col, row) {
-                        None => {
-                            match self.get_mut_next_tile(col, row, 0, y_step) {
-                                Some(ref mut tile) => {
-                                    println!("move ({}, {}) to ({}, {})",
-                                        tile.tile_x, tile.tile_y, col, row);
-                                    need_generate = true;
-                                    tile.start_moving(col, row);
-                                },
-                                _ => {},
-                            }
-                        },
-                        _ => {},
+                    if self.get_mut_tile(col, row).is_none() {
+                        if let Some(ref mut tile) = self.get_mut_next_tile(col, row, 0, y_step) {
+                            println!("move ({}, {}) to ({}, {})",
+                                     tile.tile_x, tile.tile_y, col, row);
+                            need_generate = true;
+                            tile.start_moving(col, row);
+                        }
                     }
                 }
             }
@@ -250,18 +244,12 @@ impl<'a> Board<'a> {
             // move all tiles to right place
             for row in 0..self.settings.tile_height {
                 for col  in steps.to_vec() {
-                    match self.get_mut_tile(col, row) {
-                        None => {
-                            match self.get_mut_next_tile(col, row, x_step, 0) {
-                                Some(ref mut tile) => {
-                                    println!("move ({}, {}) to ({}, {})", tile.tile_x, tile.tile_y, col, row);
-                                    need_generate = true;
-                                    tile.start_moving(col, row);
-                                },
-                                _ => {},
-                            }
-                        },
-                        _ => {},
+                    if self.get_mut_tile(col, row).is_none() {
+                        if let Some(ref mut tile) = self.get_mut_next_tile(col, row, x_step, 0) {
+                            println!("move ({}, {}) to ({}, {})", tile.tile_x, tile.tile_y, col, row);
+                            need_generate = true;
+                            tile.start_moving(col, row);
+                        }
                     }
                 }
             }

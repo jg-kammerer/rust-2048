@@ -6,7 +6,7 @@ use serde_json;
 use serde::{Serialize, Deserialize};
 
 
-static SETTING_FILENAME: &'static str = "settings.json";
+static SETTING_FILENAME: & str = "settings.json";
 
 pub struct Settings {
     pub asset_folder: String,
@@ -40,7 +40,7 @@ impl Settings {
         Settings::from_settings_in_json(&SettingsInJson::load())
     }
 
-    fn from_settings_in_json<'a>(s: &'a SettingsInJson) -> Settings {
+    fn from_settings_in_json(s: & SettingsInJson) -> Settings {
         let board_size = [
             s.tile_size * s.tile_width as f64 + s.tile_padding * (s.tile_width + 1) as f64,
             s.tile_size * s.tile_height as f64 + s.tile_padding * (s.tile_height + 1) as f64,
@@ -70,7 +70,7 @@ impl Settings {
                 s.window_background_color[2] / 255.0,
             ],
             board_padding: s.board_padding,
-            board_size: board_size,
+            board_size,
             board_offset_y: s.board_offset_y,
             tile_width: s.tile_width,
             tile_height: s.tile_height,
@@ -81,7 +81,7 @@ impl Settings {
                 s.tile_background_color[1] / 255.0,
                 s.tile_background_color[2] / 255.0,
             ],
-            tiles_colors: tiles_colors,
+            tiles_colors,
             tile_unknow_color: [
                 s.tile_unknow_color[0] / 255.0,
                 s.tile_unknow_color[1] / 255.0,
@@ -195,7 +195,7 @@ impl SettingsInJson {
             tile_size: 72.0,
             tile_padding: 16.0,
             tile_background_color: vec![187.0, 173.0, 160.0],
-            tiles_colors: tiles_colors,
+            tiles_colors,
             tile_unknow_color: vec![200.0, 0.0, 0.0],
             tile_move_time: 0.1,
             tile_new_time: 0.1,

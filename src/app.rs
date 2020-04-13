@@ -25,7 +25,7 @@ impl<'a> App<'a> {
         App {
             board: Board::new(settings),
             number_renderer: None,
-            settings: settings,
+            settings,
 
             logo: None,
             comment1: None,
@@ -76,7 +76,7 @@ impl<'a> App<'a> {
         logo_path.push(Path::new("logo.png"));
         let mut comment1_path = asset_root.clone();
         comment1_path.push(Path::new("comment1.png"));
-        let mut comment2_path = asset_root.clone();
+        let mut comment2_path = asset_root;
         comment2_path.push(Path::new("comment2.png"));
 
         self.number_renderer = Some(NumberRenderer::new());
@@ -89,11 +89,11 @@ impl<'a> App<'a> {
     }
 
     pub fn render(&mut self, args: &RenderArgs, gl: &mut GlGraphics) {
-        let ref c = Context::new_abs(args.window_size[0] /* width */ as f64,
+        let c = &Context::new_abs(args.window_size[0] /* width */ as f64,
                                      args.window_size[1] /* height */ as f64);
 
         let w_bg_col = self.window_background_color;
-        let ref nr = self.number_renderer;
+        let nr = &self.number_renderer;
 
         gl.draw(args.viewport(), |_, gl| {
             clear(w_bg_col, gl);

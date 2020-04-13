@@ -27,23 +27,23 @@ pub struct Tile<'a> {
 impl<'a> Tile<'a> {
     pub fn new(settings: &'a Settings, score: i32, tile_x: i32, tile_y: i32) -> Tile<'a> {
         Tile {
-            score: score,
-            tile_x: tile_x,
-            tile_y: tile_y,
+            score,
+            tile_x,
+            tile_y,
             status: TileState::TileNew(settings.tile_new_time, 0.0),
 
-            settings: settings,
+            settings,
         }
     }
 
     pub fn new_combined(settings: &'a Settings, score: i32, tile_x: i32, tile_y: i32) -> Tile<'a> {
         Tile {
-            score: score,
-            tile_x: tile_x,
-            tile_y: tile_y,
+            score,
+            tile_x,
+            tile_y,
             status: TileState::TileCombine(settings.tile_combine_time, 1.2 * settings.tile_size),
 
-            settings: settings,
+            settings,
         }
     }
 
@@ -102,7 +102,7 @@ impl<'a> Tile<'a> {
         }
     }
 
-    pub fn render(&self, number_renderer: &NumberRenderer, c: &Context, gl: &mut GlGraphics) {
+    pub fn render(&self, number_renderer: &NumberRenderer, ctx: &Context, gl: &mut GlGraphics) {
         let mut pos = self.tile_to_pos(self.tile_x, self.tile_y);
         let mut size = (self.settings.tile_size, self.settings.tile_size);
 
@@ -128,7 +128,7 @@ impl<'a> Tile<'a> {
                                        y + self.settings.tile_size / 2.,
                                        w/2.0, h/2.0]),
                   &DrawState::default(),
-                  c.transform,
+                  ctx.transform,
                   gl);
 
         let color = if self.score >= 8 {
@@ -137,7 +137,7 @@ impl<'a> Tile<'a> {
             self.settings.text_dark_color
         };
 
-        number_renderer.render(self.score as u32, x + self.settings.tile_size / 2.0, y + self.settings.tile_size / 2.0, self.settings.tile_size, color, c, gl);
+        number_renderer.render(self.score as u32, x + self.settings.tile_size / 2.0, y + self.settings.tile_size / 2.0, self.settings.tile_size, color, ctx, gl);
     }
 
     fn get_color(&self) -> [f32; 3] {
