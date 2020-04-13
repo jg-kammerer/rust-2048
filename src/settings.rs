@@ -220,31 +220,14 @@ impl SettingsInJson {
         exe_path.pop();
         let path = exe_path.join(Path::new(SETTING_FILENAME));
 
-        // FIXME: use this if possible  (.exists() is unstable in Rust 1.0.0)
-        /*      if !path.as_path().exists() || !path.is_file() {
-                    println!("Configuration file not found. Generating a default one.");
-                    let default = SettingsInJson::default_settings();
-                    default.save();
-                    return default;
-                }
-                let file = File::open(&path).unwrap();
-                let mut reader = BufReader::new(file);
-        */
-            let file = File::open(&path);
-
-            match file {
-                Err(e) => {
-                    println!("Configuration file can't be open ({}). Try to generate a default one.", e);
-                    let default = SettingsInJson::default_settings();
-                    default.save();
-                    return default;
-                },
-                _ => {}
-            }
-
-            let mut reader = BufReader::new(file.unwrap());
-        // End FIXME
-
+        if !path.as_path().exists() || !path.is_file() {
+            println!("Configuration file not found. Generating a default one.");
+            let default = SettingsInJson::default_settings();
+            default.save();
+            return default;
+        }
+        let file = File::open(&path).unwrap();
+        let mut reader = BufReader::new(file);
         serde_json::from_reader(&mut reader).unwrap()
     }
 
