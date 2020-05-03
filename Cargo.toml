@@ -10,9 +10,12 @@ name = "rust-2048"
 path = "src/main.rs"
 
 [dependencies]
-serde_json = "1.0.51"
+serde_json = "1.0.52"
 serde = { version = "1.0.106", features = ["derive"] }
 rand = "0.7.3"
 piston_window = "0.108.0"
 pistoncore-sdl2_window = "0.63.0"
 piston2d-opengl_graphics = "0.72.0"
+
+[profile.release]
+lto = true
