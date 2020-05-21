@@ -1,12 +1,11 @@
-use std::env::current_exe;
-use std::io::{BufWriter, BufReader, Write};
-use std::fs::{File};
-use std::path::Path;
+use serde::{Deserialize, Serialize};
 use serde_json;
-use serde::{Serialize, Deserialize};
+use std::env::current_exe;
+use std::fs::File;
+use std::io::{BufReader, BufWriter, Write};
+use std::path::Path;
 
-
-static SETTING_FILENAME: & str = "settings.json";
+static SETTING_FILENAME: &str = "settings.json";
 
 pub struct Settings {
     pub asset_folder: String,
@@ -40,7 +39,7 @@ impl Settings {
         Settings::from_settings_in_json(&SettingsInJson::load())
     }
 
-    fn from_settings_in_json(s: & SettingsInJson) -> Settings {
+    fn from_settings_in_json(s: &SettingsInJson) -> Settings {
         let board_size = [
             s.tile_size * s.tile_width as f64 + s.tile_padding * (s.tile_width + 1) as f64,
             s.tile_size * s.tile_height as f64 + s.tile_padding * (s.tile_height + 1) as f64,
@@ -49,11 +48,7 @@ impl Settings {
         let mut tiles_colors = Vec::<[f32; 3]>::new();
 
         for color in s.tiles_colors.iter() {
-            tiles_colors.push([
-                color[0] / 255.0,
-                color[1] / 255.0,
-                color[2] / 255.0,
-            ]);
+            tiles_colors.push([color[0] / 255.0, color[1] / 255.0, color[2] / 255.0]);
         }
 
         Settings {
@@ -200,7 +195,7 @@ impl SettingsInJson {
             tile_move_time: 0.1,
             tile_new_time: 0.1,
             tile_combine_time: 0.1,
-            best_rect: vec![284.0, 12.0, 96.0, 48.0,],
+            best_rect: vec![284.0, 12.0, 96.0, 48.0],
             score_rect: vec![176.0, 12.0, 96.0, 48.0],
             label_color: vec![187.0, 173.0, 160.0],
             button_color: vec![142.0, 122.0, 102.0],
@@ -248,7 +243,7 @@ impl SettingsInJson {
                 if let Err(e) = writer.write(encoded.as_bytes()) {
                     println!("WARNING: Failed to save settings: {}", e);
                 }
-            },
+            }
             Err(e) => {
                 println!("WARNING: Failed to save settings: {}", e);
             }
